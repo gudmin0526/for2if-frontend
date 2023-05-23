@@ -109,9 +109,9 @@ function Board() {
         </Box>
       </Stack>
       <Stack>
-        {posts.map((item) => {
+        {posts.map((item, idx) => {
           return (
-            <Stack>
+            <Stack key={idx}>
               <PostItem {...item} />
             </Stack>
           );

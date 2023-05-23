@@ -1,7 +1,9 @@
 import { styled } from "@mui/system";
 import { Box, Container, Button } from "@mui/material";
 import { AiOutlineComment } from "react-icons/ai";
+import { NavLink } from "react-router-dom";
 import styles from "../styles/PostItem.module.css";
+import moment from "moment";
 
 const ContainerLayout = styled(Container)({
   width: "100%",
@@ -24,7 +26,6 @@ export function PostItem(props) {
     <ContainerLayout>
       <Box sx={{ marginTop: "20px", marginBottom: "20px" }}>
         <Button
-          href={"./" + props.postId}
           sx={{
             padding: 0,
             marginBottom: "13px",
@@ -33,10 +34,16 @@ export function PostItem(props) {
             },
           }}
         >
-          <Box className={styles.title}>{props.title}</Box>
+          <NavLink
+            to={"/" + props.postId}
+            className={styles.title}
+            state={props}
+          >
+            {props.title}
+          </NavLink>
         </Button>
         <Box className={styles.date}>
-          {props.date} {props.writer}
+          {moment(props.date).format("YYYY.MM.DD")} {props.writer}
         </Box>
       </Box>
       <BoxLayout>
