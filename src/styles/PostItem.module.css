@@ -6,7 +6,6 @@
   line-height: 24px;
   letter-spacing: 0.1em;
   color: #000000;
-  padding-bottom: 13px;
 }
 
 .date {
@@ -22,10 +21,10 @@
 .count {
   font-family: "Roboto";
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
   line-height: 21px;
-  padding-left: 7px;
+  padding-left: 5px;
   letter-spacing: 0.1em;
   color: #000000;
 }

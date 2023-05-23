@@ -1,8 +1,16 @@
-import { Button, ButtonGroup, Container, Box, Pagination } from "@mui/material";
+import {
+  Stack,
+  Button,
+  ButtonGroup,
+  Container,
+  Box,
+  Pagination,
+} from "@mui/material";
 import { SearchBar } from "../components/SearchBar";
 import { styled } from "@mui/system";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PostItem } from "../components/PostItem";
+import dummydata from "../assets/dummydata";
 
 const ContainerLayout = styled(Container)({
   marginTop: "45px",
@@ -40,18 +48,40 @@ function Board() {
     { text: "공지", href: "/notification" },
     { text: "잡담", href: "/normal" },
   ];
+
   const [btnActive, setBtnActive] = useState("");
+  const [page, setPage] = useState(1); // 첫 페이지는 1
+  const [posts, setPosts] = useState([dummydata.slice(7)]); // 첫 페이지의 posts
+
+  const LAST_PAGE =
+    dummydata.length % 7 === 0
+      ? parseInt(dummydata.length / 7)
+      : parseInt(dummydata.length / 7) + 1;
+
+  useEffect(() => {
+    setPosts(
+      page === LAST_PAGE
+        ? dummydata.slice(7 * (page - 1))
+        : dummydata.slice(7 * (page - 1), 7 * (page - 1) + 7)
+    );
+  }, [page]);
+
+  const handlePage = (e) => {
+    const nowPageInt = parseInt(e.target.outerText);
+    setPage(nowPageInt);
+  };
+
   const toggleActive = (e) => {
     setBtnActive(() => e.target.value);
     console.log(btnActive);
   };
   return (
     <ContainerLayout>
-      <Container
+      <Stack
+        direction="row"
+        justifyContent="space-between"
         sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
+          marginBottom: "5px",
         }}
       >
         <ButtonGroup variant="string">
@@ -77,26 +107,31 @@ function Board() {
           <SearchBar />
           <WriteButtonLayout>글쓰기</WriteButtonLayout>
         </Box>
-      </Container>
-      <Container>
-        <PostItem title="MT 공지" writer="김동현" date="2023.05.26" count="4" />
-        <PostItem title="MT 공지" writer="김동현" date="2023.05.26" count="4" />
-        <PostItem title="MT 공지" writer="김동현" date="2023.05.26" count="4" />
-        <PostItem title="MT 공지" writer="김동현" date="2023.05.26" count="4" />
-        <PostItem title="MT 공지" writer="김동현" date="2023.05.26" count="4" />
-        <PostItem title="MT 공지" writer="김동현" date="2023.05.26" count="4" />
-        <PostItem title="MT 공지" writer="김동현" date="2023.05.26" count="4" />
-      </Container>
+      </Stack>
+      <Stack>
+        {posts.map((item) => {
+          return (
+            <Stack>
+              <PostItem {...item} />
+            </Stack>
+          );
+        })}
+      </Stack>
       <Container
         sx={{
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          marginTop: "30px",
+          marginTop: "25px",
         }}
       >
-        <Pagination count={5} color="primary" />
+        <Pagination
+          count={LAST_PAGE}
+          defaultPage={1}
+          onChange={handlePage}
+          color="primary"
+        />
       </Container>
     </ContainerLayout>
   );
