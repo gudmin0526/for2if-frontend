@@ -1,19 +1,18 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { Menu } from "./components/Menu";
+import Board from "./pages/Board";
 
 function App() {
   return (
-    <BrowserRouter>
-      <div>
-        <Menu />
-        <Routes>
-          <Route path="/attend" />
-          <Route path="/board" />
-          <Route path="/mypage" />
-          <Route path="/login" />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <div>
+      <Menu />
+      <Routes>
+        <Route path="/attend" />
+        <Route path="/board" element={<Board />} />
+        <Route path="/mypage" />
+        <Route path="/login" />
+      </Routes>
+    </div>
   );
 }
 
